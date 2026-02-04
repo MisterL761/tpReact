@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router';
+import { CollectionContext } from '../../context/CollectionContext.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import styles from './GameDetails.module.css';
 
 const GameDetails = () => {
     const { id } = useParams();
     const [game, setGame] = useState(null);
-    const [inCollection, setInCollection] = useState(false);
-    const [status, setStatus] = useState('backlog');
     const [screenshots, setScreenshots] = useState([]);
+    const { collection, addToCollection, removeFromCollection, updateStatus, isInCollection, getGameStatus } = useContext(CollectionContext);
+
+    const inCollection = isInCollection(parseInt(id));
+    const status = getGameStatus(parseInt(id));
 
     useEffect(() => {
         fetch(`https://api.rawg.io/api/games/${id}?key=${import.meta.env.VITE_RAWG_API_KEY}`)
@@ -29,6 +32,18 @@ const GameDetails = () => {
                 console.log(error);
             });
     }, [id]);
+
+    const handleCollection = () => {
+        if (inCollection) {
+            removeFromCollection(parseInt(id));
+        } else {
+            addToCollection(game);
+        }
+    };
+
+    const handleStatusChange = (newStatus) => {
+        updateStatus(parseInt(id), newStatus);
+    };
 
     if (!game) {
         return (
@@ -60,14 +75,14 @@ const GameDetails = () => {
                     </div>
 
                     <div className={styles.collectionControls}>
-                        <button onClick={() => setInCollection(!inCollection)}>
+                        <button onClick={handleCollection}>
                             {inCollection ? "Retirer de la collection" : "Ajouter à ma collection"}
                         </button>
 
                         {inCollection && (
                             <select
                                 value={status}
-                                onChange={(e) => setStatus(e.target.value)}
+                                onChange={(e) => handleStatusChange(e.target.value)}
                             >
                                 <option value="backlog">À faire</option>
                                 <option value="playing">En cours</option>

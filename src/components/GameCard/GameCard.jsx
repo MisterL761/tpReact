@@ -22,12 +22,12 @@ const GameCard = ({
             <div className={styles.gameContent}>
                 <h3 className={styles.gameTitle}>{name}</h3>
 
-                {rating && (
+
                     <div className={styles.gameRating}>
                         <span className={styles.star}>★</span>
                         {rating}
                     </div>
-                )}
+
 
                 <div className={styles.platforms}>
                     {platforms && platforms.map((p) => p.platform.name).join(', ')}
