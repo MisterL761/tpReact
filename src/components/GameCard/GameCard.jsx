@@ -1,5 +1,5 @@
 import styles from './GameCard.module.css';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const GameCard = ({
                       id,

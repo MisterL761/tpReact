@@ -1,11 +1,11 @@
 import styles from './Navbar.module.css';
-import { Routes, Route } from 'react-router';
+import { Link } from 'react-router';
 
 const Navbar = () => {
 
     return (
         <nav className={styles.navbar}>
-            <p className={styles.logo}> Home</p>
+            <Link to="/" className={styles.logo}>Home</Link>
         </nav>
     )
 
