@@ -1,4 +1,5 @@
 import styles from './Navbar.module.css';
+import { Routes, Route } from 'react-router';
 
 const Navbar = () => {
 

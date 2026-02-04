@@ -1,30 +1,41 @@
 import styles from './GameCard.module.css';
+import { Link } from 'react-router-dom';
 
-const GameCard = ({ game }) => {
+const GameCard = ({
+                      id,
+                      name,
+                      image,
+                      rating,
+                      platforms
+                  }) => {
     return (
         <div className={styles.gameCard}>
             <div className={styles.imageContainer}>
                 <img
-                    src={game.background_image}
-                    alt={game.name}
+                    src={image}
+                    alt={name}
                     className={styles.gameImage}
                 />
                 <div className={styles.imageOverlay}></div>
             </div>
 
             <div className={styles.gameContent}>
-                <h3 className={styles.gameTitle}>{game.name}</h3>
+                <h3 className={styles.gameTitle}>{name}</h3>
 
-                {game.rating && (
+                {rating && (
                     <div className={styles.gameRating}>
                         <span className={styles.star}>★</span>
-                        {game.rating}
+                        {rating}
                     </div>
                 )}
 
                 <div className={styles.platforms}>
-                    {game.platforms && game.platforms.map((p) => p.platform.name).join(', ')}
+                    {platforms && platforms.map((p) => p.platform.name).join(', ')}
                 </div>
+
+                <Link to={`/game/${id}`} className={styles.btnDetails}>
+                    Voir détails
+                </Link>
             </div>
         </div>
     );
