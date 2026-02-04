@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, Link } from 'react-router';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import styles from './GameDetails.module.css';
 
@@ -92,7 +92,14 @@ const GameDetails = () => {
                     </div>
 
                     <div className={styles.section}>
-                        <p><strong>Développeurs :</strong> {game.developers?.map(d => d.name).join(', ')}</p>
+                        <p>
+                            <strong>Développeurs :</strong>{' '}
+                            {game.developers && game.developers.map(d => (
+                                <Link key={d.id} to={`/developer/${d.id}`} className={styles.devLink}>
+                                    {d.name}
+                                </Link>
+                            ))}
+                        </p>
                         <p><strong>Éditeurs :</strong> {game.publishers?.map(p => p.name).join(', ')}</p>
                     </div>
 
