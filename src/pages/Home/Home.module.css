@@ -65,6 +65,41 @@
     z-index: 1;
 }
 
+/* --- NOUVEAUX STYLES POUR LE LOADER --- */
+
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh; /* Prend la moitié de l'écran pour bien centrer */
+    width: 100%;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(167, 139, 250, 0.1); /* Bordure très claire */
+    border-radius: 50%;
+    border-top-color: #a78bfa; /* Couleur violette assortie au titre */
+    animation: spin 1s ease-in-out infinite;
+}
+
+.noResults {
+    text-align: center;
+    width: 100%;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    margin-top: 4rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- MEDIA QUERIES --- */
+
 @media (max-width: 768px) {
     .title {
         font-size: 2rem;
