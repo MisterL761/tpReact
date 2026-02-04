@@ -8,6 +8,7 @@ import styles from './Home.module.css';
 const Home = () => {
 
     const [games, setGames] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [search, setSearch] = useState('');
     const [genre, setGenre] = useState('');
@@ -15,14 +16,17 @@ const Home = () => {
     const [sort, setSort] = useState('-added');
 
     useEffect(() => {
+        setIsLoading(true);
+
         fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_RAWG_API_KEY}&page_size=20&ordering=${sort}${search ? '&search=' + search : ''}${genre ? '&genres=' + genre : ''}${platform ? '&platforms=' + platform : ''}`)
             .then(response => response.json())
             .then(data => {
                 setGames(data.results);
-                console.log(data);
+                setIsLoading(false);
             })
             .catch(error => {
                 console.log(error);
+                setIsLoading(false);
             });
     }, [search, genre, platform, sort])
 
@@ -43,18 +47,25 @@ const Home = () => {
                 sort={sort} setSort={setSort}
             />
 
-            <div className={styles.gamesGrid}>
-                {games && games.map(game => (
-                    <GameCard
-                        key={game.id}
-                        id={game.id}
-                        name={game.name}
-                        image={game.background_image}
-                        rating={game.rating}
-                        platforms={game.platforms}
-                    />
-                ))}
-            </div>
+            {isLoading ? (
+                <div className={styles.loaderContainer}>
+                    <div className={styles.spinner}></div>
+                </div>
+            ) : (
+                <div className={styles.gamesGrid}>
+                    {games && games.map(game => (
+                        <GameCard
+                            key={game.id}
+                            id={game.id}
+                            name={game.name}
+                            image={game.background_image}
+                            rating={game.rating}
+                            platforms={game.platforms}
+                        />
+                    ))}
+                    {games.length === 0 && <p className={styles.noResults}>Aucun jeu trouvé.</p>}
+                </div>
+            )}
 
         </div>
     )
